@@ -1,0 +1,9 @@
+html {
+  background: linear-gradient(90deg, hsl(250 36% 57%), hsl(250 65% 88%));
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Helvetica;
+}

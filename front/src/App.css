@@ -1,0 +1,146 @@
+:root {
+  --hue: 250;
+  --base-color: hsl(var(--hue) 36% 57%);
+  --base-color-second: hsl(var(--hue) 65% 88%);
+  --base-color-alt: hsl(var(--hue) 57% 33%);
+  --title-color: hsl(var(--hue) 41% 10%);
+  --text-color: hsl(0 0% 46%);
+  --text-color-light: hsl(0 0% 98%);
+  --body-color: hsl(0 0% 98%);
+}
+
+.App {
+  width: 75%;
+  margin: 2em auto;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 5px;
+  color: var(--text-color);
+}
+
+.header {
+  padding: 0.5em;
+  border-bottom: 1px solid hsl(250 57% 33%);
+  text-align: center;
+  color: var(--title-color);
+}
+
+.header h1 {
+  margin: 0;
+}
+
+.form {
+  padding: 1em;
+  margin: 0 2em;
+  border-bottom: 1px solid hsl(250 57% 33%);
+}
+
+.form h2,
+.list h2 {
+  text-align: center;
+  margin-top: 0;
+}
+
+.form-control {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1em;
+}
+
+.form-control label {
+  font-weight: bold;
+  font-size: 0.7em;
+  margin-bottom: 0.4em;
+}
+
+.form-control input {
+  border: 2px solid hsl(var(--hue) 57% 33%);
+  border-radius: 2px;
+  background-color: var(--body-color);
+  padding: 0.5em;
+  color: var(--text-color);
+}
+
+.date-picker {
+  border: 2px solid hsl(var(--hue) 57% 33%);
+  margin-bottom: 1em;
+}
+
+input[type="submit"] {
+  background-color: var(--base-color);
+  color: #eee;
+  display: block;
+  width: 100%;
+  border: 1px solid #222;
+  border-radius: 5px;
+  padding: 1em;
+  cursor: pointer;
+}
+
+.total-month {
+  display: flex;
+  text-align: center;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 2em;
+  margin-top: 1em;
+
+  border-radius: 5px;
+  background-color: var(--base-color-second);
+}
+
+.total-text {
+  justify-content: center;
+  color: var(--title-color);
+}
+
+.total-month svg {
+  font-size: 2em;
+  margin: 0 0.5em;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.list {
+  padding: 1em 1em 2em;
+  margin: 1em 2em;
+  border-top: 1px solid hsl(250 57% 33%);
+}
+
+.list h2 {
+  margin-bottom: 0;
+}
+
+.list p {
+  text-align: center;
+}
+
+.purchase {
+  border-bottom: 1px solid #444;
+  padding: 1em 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.purchase h3 {
+  margin-bottom: 0.5em;
+}
+
+.purchase p {
+  text-align: left;
+  font-style: italic;
+  font-size: 0.7em;
+  margin-bottom: 1.5em;
+  word-wrap: break-word;
+  width: 50em;
+}
+
+.purchase svg {
+  font-size: 1.2em;
+  cursor: pointer;
+  margin-right: 1em;
+  transition: 0.5s;
+}
+
+svg:hover {
+  color: var(--base-color-alt);
+}
