@@ -7,6 +7,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
+import Datepicker from "./Datepicker";
 
 export default function Form() {
   return (
@@ -25,6 +26,7 @@ export default function Form() {
           placeholder="Observações (opcional)"
           clearButtonMode="always"
         />
+        <Datepicker />
         <TouchableOpacity style={styles.button}>
           <Text style={styles.buttonText}>Salvar</Text>
         </TouchableOpacity>
