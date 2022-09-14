@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, Button, TextInput, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-export default function Datepicker() {
+export default function Datepicker(props) {
   const [isDatePickerVisible, setDatePickerVisibility] = React.useState(false);
 
   const showDatePicker = () => {
@@ -14,19 +14,21 @@ export default function Datepicker() {
   };
 
   const handleConfirm = (date) => {
-    console.warn("A date has been picked: ", date);
+    props.setSelectedDate(date.toLocaleDateString())
     hideDatePicker();
   };
 
   return (
     <View>
       <View style={styles.input}>
-        <TextInput value={new Date().toLocaleDateString("pt-BR")} />
+        <TextInput value={props.selectedDate}/>
         <Button title="Escolher Data" onPress={showDatePicker} />
       </View>
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
         mode="date"
+        date={new Date(props.selectedDate)}
+        maximumDate={new Date()}
         onConfirm={handleConfirm}
         onCancel={hideDatePicker}
       />
@@ -38,10 +40,7 @@ const styles = StyleSheet.create({
   input: {
     flexDirection: "row",
     justifyContent: "space-between",
-    width: "90%",
     padding: 20,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-    alignItems: "stretch",
+    alignItems: "center"
   },
 });

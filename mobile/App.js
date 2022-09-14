@@ -6,7 +6,7 @@ import Tab from "./components/Tab";
 export default function App() {
   return (
     <>
-      <StatusBar style="light" />
+      <StatusBar style="dark" />
       <Tab />
     </>
   );

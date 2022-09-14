@@ -10,24 +10,38 @@ import {
 import Datepicker from "./Datepicker";
 
 export default function Form() {
+  const [cost, setCost] = React.useState(0);
+  const [obs, setObs] = React.useState('');
+  const [selectedDate, setSelectedDate] = React.useState(new Date().toLocaleDateString('en-GB'));
+
+  const handleSubmit = () => {
+    const obj = {
+      cost,
+      obs,
+      date: selectedDate
+    }
+    console.log(obj);
+  }
+
   return (
     <View style={styles.container}>
-      <StatusBar style="dark" />
       <Text style={styles.title}>Adicionar novo gasto</Text>
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
           placeholder="Quanto você gastou"
           keyboardType={"numeric"}
-          clearButtonMode="always"
+          value={cost || ''}
+          onChangeText={(value) => setCost(value)}
         />
         <TextInput
           style={styles.input}
           placeholder="Observações (opcional)"
-          clearButtonMode="always"
+          value={obs || ''}
+          onChangeText={(value) => setObs(value)}
         />
-        <Datepicker />
-        <TouchableOpacity style={styles.button}>
+        <Datepicker selectedDate={selectedDate} setSelectedDate={setSelectedDate}/>
+        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
           <Text style={styles.buttonText}>Salvar</Text>
         </TouchableOpacity>
       </View>
@@ -53,7 +67,6 @@ const styles = StyleSheet.create({
     padding: 20,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    alignItems: "stretch",
     backgroundColor: "#fff",
   },
   input: {
