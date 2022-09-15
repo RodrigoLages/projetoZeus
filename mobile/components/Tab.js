@@ -7,12 +7,6 @@ import List from ".//List";
 const { Navigator, Screen } = createBottomTabNavigator();
 
 export default function App() {
-  const [cost, setCost] = React.useState(0);
-  const [obs, setObs] = React.useState("aaaa");
-  const [selectedDate, setSelectedDate] = React.useState(
-    new Date().toLocaleDateString()
-  );
-
   return (
     <NavigationContainer>
       <Navigator
@@ -36,23 +30,11 @@ export default function App() {
           name="Form"
           component={Form}
           options={{ tabBarLabel: "Novo Gasto" }}
-          cost={cost}
-          setCost={setCost}
-          obs={obs}
-          setObs={setObs}
-          selectedDate={selectedDate}
-          setSelectedDate={setSelectedDate}
         />
         <Screen
           name="List"
           component={List}
           options={{ tabBarLabel: "Gastos do mês" }}
-          cost={cost}
-          setCost={setCost}
-          obs={obs}
-          setObs={setObs}
-          selectedDate={selectedDate}
-          setSelectedDate={setSelectedDate}
         />
       </Navigator>
     </NavigationContainer>

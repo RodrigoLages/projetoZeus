@@ -1,16 +1,14 @@
 import React from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import Item from "./Item";
+import Database from './Database';
 
-export default function List() {
-  const [items, setItems] = React.useState([
-    { _id: 0, cost: 12, obs: "", date: "20/04/1945" },
-    { _id: 1, cost: 2, obs: "barataum", date: "25/04/2000" },
-    { _id: 2, cost: 14, obs: "meh", date: "25/04/2020" },
-    { _id: 3, cost: 7, obs: "", date: "25/04/2022" },
-    { _id: 4, cost: 35, obs: "ai meu rim", date: "25/12/2020" },
-    { _id: 5, cost: 20, obs: "", date: "01/01/1900" },
-  ]);
+export default function List({route, navigation}) {
+  const [items, setItems] = React.useState([]);
+
+  React.useEffect(() => {
+    Database.getItems().then((items) => setItems(items))
+  }, [route]);
 
   return (
     <View style={styles.container}>
@@ -27,6 +25,7 @@ export default function List() {
               cost={item.cost}
               obs={item.obs}
               date={item.date}
+              navigation={navigation}
             />
           );
         })}

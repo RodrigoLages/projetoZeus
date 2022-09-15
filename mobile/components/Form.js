@@ -8,15 +8,25 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Datepicker from "./Datepicker";
+import Database from "./Database";
 
-export default function Form(props) {
-  const handleSubmit = () => {
-    const obj = {
-      cost: props.cost,
-      obs: props.obs,
-      date: props.selectedDate,
+export default function Form({route, navigation}) {
+  const [cost, setCost] = React.useState(0);
+  const [obs, setObs] = React.useState("aaaa");
+  const [selectedDate, setSelectedDate] = React.useState(
+    new Date().toString()
+  );
+
+  const handleSubmit = async () => {
+    if (!cost) cost = 0;
+
+    const purchase = {
+      cost,
+      obs,
+      date: selectedDate,
     };
-    console.log(obj);
+    
+    Database.saveItem(purchase).then((res) => navigation.navigate('List'));
   };
 
   return (
@@ -27,23 +37,23 @@ export default function Form(props) {
           style={styles.input}
           placeholder="Quanto você gastou"
           keyboardType={"numeric"}
-          value={props.cost || ""}
-          onChangeText={(value) => props.setCost(value)}
+          value={cost || ""}
+          onChangeText={(value) => setCost(value)}
         />
         <TextInput
           style={styles.input}
           placeholder="Observações (opcional)"
-          value={props.obs || ""}
-          onChangeText={(value) => props.setObs(value)}
+          value={obs || ""}
+          onChangeText={(value) => setObs(value)}
         />
         <Datepicker
-          selectedDate={props.selectedDate}
-          setSelectedDate={props.setSelectedDate}
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
         />
         <TouchableOpacity style={styles.button} onPress={handleSubmit}>
           <Text style={styles.buttonText}>Salvar</Text>
         </TouchableOpacity>
-        <Text>{props.cost}</Text>
+        <Text>{cost}</Text>
       </View>
     </View>
   );

@@ -10,14 +10,14 @@ export default function Datepicker(props) {
   const hideDatePicker = () => setDatePickerVisibility(false);
 
   const handleConfirm = (date) => {
-    props.setSelectedDate(date.toLocaleDateString());
+    props.setSelectedDate(date);
     hideDatePicker();
   };
 
   return (
     <View>
       <View style={styles.input}>
-        <TextInput value={props.selectedDate} />
+        <TextInput value={new Date(props.selectedDate).toLocaleDateString()} />
         <Button title="Escolher Data" onPress={showDatePicker} />
       </View>
       <DateTimePickerModal

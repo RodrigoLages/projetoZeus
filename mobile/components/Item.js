@@ -5,11 +5,11 @@ export default function Item(props) {
   return (
     <View style={styles.container}>
       <View style={styles.test}>
-        <Text style={styles.textItem}>R$ {props.cost},00</Text>
+        <Text style={styles.textItem}>R$ {parseFloat(props.cost).toFixed(2)}</Text>
         <Text style={styles.textObs}>{props.obs}</Text>
       </View>
       <View>
-        <Text style={styles.textItem}>{props.date}</Text>
+        <Text style={styles.textItem}>{new Date(props.date).toLocaleDateString()}</Text>
         <View style={styles.buttonsContainer}>
           <TouchableOpacity style={styles.deleteButton}>
             <Text style={styles.buttonText}>X</Text>
@@ -48,20 +48,20 @@ const styles = StyleSheet.create({
     fontSize: 12,
     elevation: 10,
     shadowOpacity: 10,
-    shadowColor: "#ccc",
+    shadowColor: "black",
     alignItems: "center",
   },
   deleteButton: {
     marginLeft: 10,
     height: 40,
     width: 40,
-    backgroundColor: "red",
+    backgroundColor: "hsl(250, 57%, 33%)",
     borderRadius: 10,
     padding: 10,
     fontSize: 12,
     elevation: 10,
     shadowOpacity: 10,
-    shadowColor: "#ccc",
+    shadowColor: "black",
     alignItems: "center",
   },
   buttonText: {
