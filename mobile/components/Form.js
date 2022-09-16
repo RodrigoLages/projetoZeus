@@ -10,12 +10,10 @@ import {
 import Datepicker from "./Datepicker";
 import Database from "./Database";
 
-export default function Form({route, navigation}) {
+export default function Form({ route, navigation }) {
   const [cost, setCost] = React.useState(0);
-  const [obs, setObs] = React.useState("aaaa");
-  const [selectedDate, setSelectedDate] = React.useState(
-    new Date().toString()
-  );
+  const [obs, setObs] = React.useState("");
+  const [selectedDate, setSelectedDate] = React.useState(new Date().toString());
 
   const handleSubmit = async () => {
     if (!cost) cost = 0;
@@ -25,8 +23,8 @@ export default function Form({route, navigation}) {
       obs,
       date: selectedDate,
     };
-    
-    Database.saveItem(purchase).then((res) => navigation.navigate('List'));
+
+    Database.saveItem(purchase).then((res) => navigation.navigate("List"));
   };
 
   return (
@@ -53,7 +51,6 @@ export default function Form({route, navigation}) {
         <TouchableOpacity style={styles.button} onPress={handleSubmit}>
           <Text style={styles.buttonText}>Salvar</Text>
         </TouchableOpacity>
-        <Text>{cost}</Text>
       </View>
     </View>
   );

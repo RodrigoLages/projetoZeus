@@ -1,15 +1,20 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import Database from "./Database";
 
 export default function Item(props) {
   return (
     <View style={styles.container}>
       <View style={styles.test}>
-        <Text style={styles.textItem}>R$ {parseFloat(props.cost).toFixed(2)}</Text>
+        <Text style={styles.textItem}>
+          R$ {parseFloat(props.cost).toFixed(2)}
+        </Text>
         <Text style={styles.textObs}>{props.obs}</Text>
       </View>
       <View>
-        <Text style={styles.textItem}>{new Date(props.date).toLocaleDateString()}</Text>
+        <Text style={styles.textItem}>
+          {new Date(props.date).toLocaleDateString()}
+        </Text>
         <View style={styles.buttonsContainer}>
           <TouchableOpacity style={styles.deleteButton}>
             <Text style={styles.buttonText}>X</Text>
@@ -71,7 +76,14 @@ const styles = StyleSheet.create({
   textItem: {
     fontSize: 20,
   },
+  textObs: {
+    //flexShrink: 1,
+    //flexWrap: "wrap",
+  },
   test: {
     justifyContent: "space-evenly",
+    width: 0,
+    flexGrow: 1,
+    flex: 1,
   },
 });

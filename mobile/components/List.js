@@ -1,13 +1,13 @@
 import React from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import Item from "./Item";
-import Database from './Database';
+import Database from "./Database";
 
-export default function List({route, navigation}) {
+export default function List({ route, navigation }) {
   const [items, setItems] = React.useState([]);
 
   React.useEffect(() => {
-    Database.getItems().then((items) => setItems(items))
+    Database.getItems().then((items) => setItems(items));
   }, [route]);
 
   return (
