@@ -1,5 +1,4 @@
 import React from "react";
-import { StatusBar } from "expo-status-bar";
 import {
   StyleSheet,
   Text,
@@ -11,20 +10,45 @@ import Datepicker from "./Datepicker";
 import Database from "./Database";
 
 export default function Form({ route, navigation }) {
-  const [cost, setCost] = React.useState(0);
+  const _id = route.params ? route.params._id : undefined;
+  const [editing, setEditing] = React.useState(false);
+  const [cost, setCost] = React.useState("");
   const [obs, setObs] = React.useState("");
   const [selectedDate, setSelectedDate] = React.useState(new Date().toString());
 
+  console.log(editing);
+  React.useEffect(() => {
+    if (!route.params) return;
+    setEditing(true);
+    setCost(parseFloat(route.params.cost).toFixed(2));
+    setObs(route.params.obs);
+    setSelectedDate(new Date(route.params.date).toString());
+  }, [route.params]);
+
   const handleSubmit = async () => {
-    if (!cost) cost = 0;
+    if (editing) {
+      const purchase = {
+        _id,
+        cost,
+        obs,
+        date: selectedDate
+      };
 
-    const purchase = {
-      cost,
-      obs,
-      date: selectedDate,
-    };
-
-    Database.saveItem(purchase).then((res) => navigation.navigate("List"));
+      Database.editItem(purchase).then((res) => navigation.navigate("List", purchase));
+    } else {
+      const purchase = {
+        cost,
+        obs,
+        date: selectedDate,
+      };
+  
+      Database.saveItem(purchase).then((res) => navigation.navigate("List", purchase))
+    }
+    
+    setEditing(false);
+    setCost('');
+    setObs('');
+    setSelectedDate(new Date().toString());
   };
 
   return (

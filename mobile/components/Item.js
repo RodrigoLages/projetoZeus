@@ -1,8 +1,32 @@
 import React from "react";
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
+import {Feather as Icon} from "@expo/vector-icons"
 import Database from "./Database";
 
 export default function Item(props) {
+  const handleEdit = async () => {
+    const item = await Database.getItem(props._id);
+    props.navigation.navigate("Form", item);
+  }
+
+  const handleDelete = async () => {
+    Alert.alert(
+      "Excluir",
+      "Você tem certeza que deseja excluir este item?",
+      [
+          {
+          text: "Não",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+          },
+          { text: "Sim", onPress: () => {
+              Database.deleteItem(props._id)
+                .then(() => props.navigation.navigate("List", {_id: props._id})) }}
+      ],
+      { cancelable: false }
+      );
+    }
+
   return (
     <View style={styles.container}>
       <View style={styles.test}>
@@ -16,11 +40,11 @@ export default function Item(props) {
           {new Date(props.date).toLocaleDateString()}
         </Text>
         <View style={styles.buttonsContainer}>
-          <TouchableOpacity style={styles.deleteButton}>
-            <Text style={styles.buttonText}>X</Text>
+          <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
+            <Icon name="trash" color="white" size={18} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.editButton}>
-            <Text style={styles.buttonText}>Editar</Text>
+          <TouchableOpacity style={styles.editButton} onPress={handleEdit}>
+            <Icon name="edit" color="white" size={18} />
           </TouchableOpacity>
         </View>
       </View>

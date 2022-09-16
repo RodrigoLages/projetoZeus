@@ -21,7 +21,7 @@ export default function List({ route, navigation }) {
           return (
             <Item
               key={item._id}
-              id={item._id}
+              _id={item._id}
               cost={item.cost}
               obs={item.obs}
               date={item.date}

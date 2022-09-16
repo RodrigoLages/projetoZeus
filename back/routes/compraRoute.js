@@ -36,6 +36,49 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:id", async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const compra = await Compra.findOne({ _id: id });
+
+    if (!compra) {
+      res.status(422).json({ msg: "Registro não encontrado" });
+      return;
+    }
+
+    res.status(200).json(compra);
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+});
+
+//Update
+router.patch("/:id", async (req, res) => {
+  const _id = req.params.id;
+  const { cost, obs, date } = req.body;
+
+  const compra = {
+    _id,
+    cost,
+    obs,
+    date,
+  };
+
+  try {
+    const updatedCompra = await Compra.updateOne({ _id: _id }, compra);
+
+    if (updatedCompra.matchedCount === 0) {
+      res.status(422).json({ msg: "Registro não encontrado" });
+      return;
+    }
+
+    res.status(200).json(compra);
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+});
+
 //Delete
 router.delete("/:id", async (req, res) => {
   const id = req.params.id;

@@ -10,8 +10,8 @@ export default function Datepicker(props) {
   const hideDatePicker = () => setDatePickerVisibility(false);
 
   const handleConfirm = (date) => {
-    props.setSelectedDate(date);
     hideDatePicker();
+    props.setSelectedDate(date.toString());
   };
 
   return (
