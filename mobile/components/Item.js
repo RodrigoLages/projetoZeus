@@ -1,42 +1,49 @@
 import React from "react";
 import { StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
-import {Feather as Icon} from "@expo/vector-icons"
+import { Feather as Icon } from "@expo/vector-icons";
 import Database from "./Database";
 
 export default function Item(props) {
   const handleEdit = async () => {
     const item = await Database.getItem(props._id);
     props.navigation.navigate("Form", item);
-  }
+  };
 
   const handleDelete = async () => {
     Alert.alert(
       "Excluir",
       "Você tem certeza que deseja excluir este item?",
       [
-          {
+        {
           text: "Não",
           onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
+          style: "cancel",
+        },
+        {
+          text: "Sim",
+          onPress: () => {
+            Database.deleteItem(props._id).then(() =>
+              props.navigation.navigate("List", { _id: props._id })
+            );
           },
-          { text: "Sim", onPress: () => {
-              Database.deleteItem(props._id)
-                .then(() => props.navigation.navigate("List", {_id: props._id})) }}
+        },
       ],
       { cancelable: false }
-      );
-    }
+    );
+  };
 
   return (
     <View style={styles.container}>
-      <View style={styles.test}>
+      <View style={styles.leftContainer}>
         <Text style={styles.textItem}>
           R$ {parseFloat(props.cost).toFixed(2)}
         </Text>
-        <Text style={styles.textObs}>{props.obs}</Text>
+        <Text style={styles.textObs}>
+          Obs: {props.obs ? props.obs : "Nenhuma"}
+        </Text>
       </View>
-      <View>
-        <Text style={styles.textItem}>
+      <View style={styles.rightContainer}>
+        <Text style={styles.textDate}>
           {new Date(props.date).toLocaleDateString()}
         </Text>
         <View style={styles.buttonsContainer}>
@@ -71,6 +78,7 @@ const styles = StyleSheet.create({
   editButton: {
     marginLeft: 10,
     height: 40,
+    width: 40,
     backgroundColor: "blue",
     borderRadius: 10,
     padding: 10,
@@ -93,21 +101,24 @@ const styles = StyleSheet.create({
     shadowColor: "black",
     alignItems: "center",
   },
-  buttonText: {
-    color: "#fff",
-    fontWeight: "bold",
+  textDate: {
+    fontSize: 15,
+    fontStyle: "italic",
   },
   textItem: {
     fontSize: 20,
+    fontWeight: "bold",
   },
   textObs: {
-    //flexShrink: 1,
-    //flexWrap: "wrap",
+    color: "hsl(0, 0%, 46%)",
   },
-  test: {
-    justifyContent: "space-evenly",
+  leftContainer: {
+    justifyContent: "space-around",
     width: 0,
     flexGrow: 1,
     flex: 1,
+  },
+  rightContainer: {
+    alignItems: "flex-end",
   },
 });

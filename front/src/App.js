@@ -31,9 +31,13 @@ function App() {
   fullMonth.set(11, "Dezembro");
 
   const getMonthPurchases = () => {
-    return purchases.filter(
-      (purchase) => new Date(purchase.date).getMonth() === selectedMonth
-    );
+    return purchases
+      .filter(
+        (purchase) => new Date(purchase.date).getFullYear() === selectedYear
+      )
+      .filter(
+        (purchase) => new Date(purchase.date).getMonth() === selectedMonth
+      );
   };
 
   const getMonthTotal = () => {
@@ -178,7 +182,7 @@ function App() {
       </div>
       <div className="list">
         <h2>Lista de gastos</h2>
-        {getMonthPurchases().length === 0 && <p>Não há compras neste mês</p>}
+        {getMonthPurchases().length === 0 && <p>Não há gastos neste mês</p>}
         {getMonthPurchases().map((purchase) => (
           <div className="purchase" key={purchase._id}>
             <div>

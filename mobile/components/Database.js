@@ -1,4 +1,4 @@
-const API = "http://172.17.9.208:4000/compra";
+const API = "http://192.168.0.104:4000/compra";
 
 //create
 async function saveItem(item) {
@@ -27,7 +27,7 @@ async function getItems() {
 
 //get one
 async function getItem(_id) {
-  const res = await fetch(API + '/' + _id)
+  const res = await fetch(API + "/" + _id)
     .then((res) => res.json())
     .catch((err) => console.log("O erro foi: " + err));
 
@@ -36,7 +36,7 @@ async function getItem(_id) {
 
 //patch one
 async function editItem(item) {
-  const res = await fetch(API + '/' + item._id, {
+  const res = await fetch(API + "/" + item._id, {
     method: "PATCH",
     body: JSON.stringify(item),
     headers: {
@@ -62,5 +62,5 @@ module.exports = {
   getItems,
   getItem,
   editItem,
-  deleteItem
+  deleteItem,
 };

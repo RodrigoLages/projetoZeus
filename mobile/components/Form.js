@@ -31,23 +31,27 @@ export default function Form({ route, navigation }) {
         _id,
         cost,
         obs,
-        date: selectedDate
+        date: selectedDate,
       };
 
-      Database.editItem(purchase).then((res) => navigation.navigate("List", purchase));
+      Database.editItem(purchase).then((res) =>
+        navigation.navigate("List", purchase)
+      );
     } else {
       const purchase = {
         cost,
         obs,
         date: selectedDate,
       };
-  
-      Database.saveItem(purchase).then((res) => navigation.navigate("List", purchase))
+
+      Database.saveItem(purchase).then((res) =>
+        navigation.navigate("List", purchase)
+      );
     }
-    
+
     setEditing(false);
-    setCost('');
-    setObs('');
+    setCost("");
+    setObs("");
     setSelectedDate(new Date().toString());
   };
 
@@ -83,21 +87,22 @@ export default function Form({ route, navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "hsl(250, 65%, 88%)",
+    backgroundColor: "hsl(250, 36%, 57%)",
     alignItems: "center",
   },
   title: {
     fontSize: 20,
     fontWeight: "bold",
     marginTop: 50,
+    color: "#fff",
   },
   inputContainer: {
-    flex: 1,
     marginTop: 30,
     width: "90%",
     padding: 20,
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
+    paddingBottom: 50,
+    borderRadius: 10,
+
     backgroundColor: "#fff",
   },
   input: {
@@ -112,7 +117,7 @@ const styles = StyleSheet.create({
   button: {
     marginTop: 10,
     height: 60,
-    backgroundColor: "hsl(250, 36%, 57%)",
+    backgroundColor: "hsl(250, 57%, 33%)",
     borderRadius: 10,
     paddingHorizontal: 24,
     fontSize: 16,
