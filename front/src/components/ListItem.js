@@ -15,6 +15,8 @@ function ListItem(props) {
   };
 
   const handleDelete = async (_id) => {
+    if (!window.confirm("Você tem certeza que deseja excluir o item?")) return;
+
     await fetch(API + "/compra/" + _id, {
       method: "DELETE",
     });

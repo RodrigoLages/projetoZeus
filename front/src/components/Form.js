@@ -100,6 +100,7 @@ function Form(props) {
           onChange={(date) => props.setSelectedDate(date.toString())}
           dateFormat="dd/MM/yyyy"
           maxDate={new Date()}
+          withPortal
           required
         />
       </div>
