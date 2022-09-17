@@ -1,16 +1,16 @@
 import "./App.css";
 
 import { useState, useEffect } from "react";
-import { BsTrash, BsArrowLeft, BsArrowRight } from "react-icons/bs";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
+import Form from "./components/Form";
+import ListItem from "./components/ListItem";
 
 const API = "http://localhost:4000";
 
 function App() {
   const [cost, setCost] = useState("");
   const [obs, setObs] = useState("");
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date().toString());
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [purchases, setPurchases] = useState([]);
@@ -68,47 +68,6 @@ function App() {
     loadData();
   }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const purchase = {
-      cost,
-      obs,
-      date: selectedDate,
-    };
-
-    const res = await fetch(API + "/compra", {
-      method: "POST",
-      body: JSON.stringify(purchase),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => data)
-      .catch((err) => console.log(err));
-
-    setPurchases((prevState) =>
-      [...prevState, res.novaCompra].sort(
-        (a, b) => new Date(a.date).getDate() - new Date(b.date).getDate()
-      )
-    );
-
-    setCost("");
-    setObs("");
-    setSelectedDate(new Date());
-  };
-
-  const handleDelete = async (_id) => {
-    await fetch(API + "/compra/" + _id, {
-      method: "DELETE",
-    });
-
-    setPurchases((prevState) =>
-      prevState.filter((purchase) => purchase._id !== _id)
-    );
-  };
-
   const handleLeftArrow = () => {
     if (selectedMonth === 0) {
       setSelectedMonth(11);
@@ -131,44 +90,17 @@ function App() {
         <h1>Registro de Gastos</h1>
       </div>
       <div className="form">
-        <h2>Insira seu gasto do dia:</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="form-control">
-            <label htmlFor="cost">Quanto você gastou?</label>
-            <input
-              type="number"
-              name="cost"
-              placeholder="00.00"
-              onChange={(e) => setCost(parseFloat(e.target.value))}
-              value={cost || ""}
-              min="0"
-              step="0.01"
-              required
-            />
-          </div>
-          <div className="form-control">
-            <label htmlFor="obs">Observações:</label>
-            <input
-              type="text"
-              name="obs"
-              placeholder="(Opcional)"
-              onChange={(e) => setObs(e.target.value)}
-              value={obs || ""}
-            />
-          </div>
-          <div className="form-control">
-            <label htmlFor="date">Data:</label>
-            <DatePicker
-              name="date"
-              selected={selectedDate}
-              onChange={(date) => setSelectedDate(date)}
-              dateFormat="dd/MM/yyyy"
-              maxDate={new Date()}
-              required
-            />
-          </div>
-          <input type="submit" value="Adicionar gasto" />
-        </form>
+        <h2>Insira seu gasto do dia</h2>
+        <Form
+          _id={undefined}
+          cost={cost}
+          setCost={setCost}
+          obs={obs}
+          setObs={setObs}
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+          setPurchases={setPurchases}
+        />
       </div>
       <div className="total-month">
         <BsArrowLeft onClick={() => handleLeftArrow()} />
@@ -184,18 +116,14 @@ function App() {
         <h2>Lista de gastos</h2>
         {getMonthPurchases().length === 0 && <p>Não há gastos neste mês</p>}
         {getMonthPurchases().map((purchase) => (
-          <div className="purchase" key={purchase._id}>
-            <div>
-              <h3>R$ {parseFloat(purchase.cost).toFixed(2)}</h3>
-              <p>
-                Observações: {purchase.obs === "" ? "Nenhuma" : purchase.obs}
-              </p>
-            </div>
-            <div>
-              <h4>{new Date(purchase.date).toLocaleDateString("pt-BR")}</h4>
-              <BsTrash onClick={() => handleDelete(purchase._id)} />
-            </div>
-          </div>
+          <ListItem
+            key={purchase._id}
+            _id={purchase._id}
+            cost={purchase.cost}
+            obs={purchase.obs}
+            date={purchase.date}
+            setPurchases={setPurchases}
+          />
         ))}
       </div>
     </div>

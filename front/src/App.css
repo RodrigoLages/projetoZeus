@@ -114,8 +114,11 @@ input[type="submit"] {
   text-align: center;
 }
 
-.purchase {
+.purchase_container {
   border-bottom: 1px solid #444;
+}
+
+.purchase {
   padding: 1em 0;
   display: flex;
   justify-content: space-between;
@@ -131,7 +134,7 @@ input[type="submit"] {
   font-size: 0.7em;
   margin-bottom: 1.5em;
   word-wrap: break-word;
-  width: 50em;
+  width: 90%;
 }
 
 .purchase svg {
@@ -143,4 +146,20 @@ input[type="submit"] {
 
 svg:hover {
   color: var(--base-color-alt);
+}
+
+.left {
+  width: 0;
+  flex-grow: 1;
+  flex: 1;
+}
+
+.formEditShow {
+  display: block;
+  padding-bottom: 1.5em;
+}
+
+.formEditHide {
+  display: none;
+  padding-bottom: 1.5em;
 }
