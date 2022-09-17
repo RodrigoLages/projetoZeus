@@ -1,4 +1,4 @@
-const API = "http://192.168.0.104:4000/compra";
+const API = "http://192.168.1.98:4000/compra";
 
 //create
 async function saveItem(item) {

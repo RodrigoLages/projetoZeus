@@ -5,7 +5,9 @@ import {
   View,
   TextInput,
   TouchableOpacity,
+  Alert,
 } from "react-native";
+import { Feather as Icon } from "@expo/vector-icons";
 import Datepicker from "./Datepicker";
 import Database from "./Database";
 
@@ -26,6 +28,21 @@ export default function Form({ route, navigation }) {
   }, [route.params]);
 
   const handleSubmit = async () => {
+    if (!cost) {
+      Alert.alert(
+        "Inválido",
+        "Por favor, insira um valor de gasto",
+        [
+          {
+            text: "OK",
+            style: "cancel",
+          },
+        ],
+        { cancelable: false }
+      );
+      return;
+    }
+
     if (editing) {
       const purchase = {
         _id,
@@ -77,7 +94,10 @@ export default function Form({ route, navigation }) {
           setSelectedDate={setSelectedDate}
         />
         <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-          <Text style={styles.buttonText}>Salvar</Text>
+          <View style={styles.buttonContainer}>
+            <Icon name="save" size={22} color="white" />
+            <Text style={styles.buttonText}>Salvar</Text>
+          </View>
         </TouchableOpacity>
       </View>
     </View>
@@ -128,6 +148,15 @@ const styles = StyleSheet.create({
     shadowColor: "#ccc",
   },
   buttonText: {
+    color: "#fff",
+    fontWeight: "bold",
+  },
+  buttonContainer: {
+    flexDirection: "row",
+  },
+  buttonText: {
+    marginLeft: 10,
+    fontSize: 18,
     color: "#fff",
     fontWeight: "bold",
   },

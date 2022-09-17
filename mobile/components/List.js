@@ -1,8 +1,18 @@
 import React from "react";
-import { StyleSheet, Text, View, ScrollView } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  ScrollView,
+  RefreshControl,
+} from "react-native";
 import { AntDesign as Icon } from "@expo/vector-icons";
 import Item from "./Item";
 import Database from "./Database";
+
+const wait = (timeout) => {
+  return new Promise((resolve) => setTimeout(resolve, timeout));
+};
 
 export default function List({ route, navigation }) {
   const [items, setItems] = React.useState([]);
@@ -12,6 +22,7 @@ export default function List({ route, navigation }) {
   const [selectedYear, setSelectedYear] = React.useState(
     new Date().getFullYear()
   );
+  const [refreshing, setRefreshing] = React.useState(false);
 
   const fullMonth = new Map();
   fullMonth.set(0, "Janeiro");
@@ -35,7 +46,7 @@ export default function List({ route, navigation }) {
         )
       )
     );
-  }, [route]);
+  }, [route, refreshing]);
 
   const handleLeftArrow = () => {
     if (selectedMonth === 0) {
@@ -51,6 +62,11 @@ export default function List({ route, navigation }) {
     } else setSelectedMonth(selectedMonth + 1);
   };
 
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
+
   const getMonthItems = () => {
     return items
       .filter((item) => new Date(item.date).getFullYear() === selectedYear)
@@ -61,7 +77,7 @@ export default function List({ route, navigation }) {
     <View style={styles.container}>
       <View style={styles.header}>
         <Icon
-          name="caretleft"
+          name="leftcircle"
           color="white"
           size={30}
           onPress={handleLeftArrow}
@@ -70,7 +86,7 @@ export default function List({ route, navigation }) {
           Gastos de {fullMonth.get(selectedMonth)}
         </Text>
         <Icon
-          name="caretright"
+          name="rightcircle"
           color="white"
           size={30}
           onPress={handleRightArrow}
@@ -79,6 +95,9 @@ export default function List({ route, navigation }) {
       <ScrollView
         style={styles.scrollContainer}
         contentContainerStyle={styles.itemsContainer}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
       >
         {getMonthItems().length === 0 && <Text>Não há gastos neste mês</Text>}
         {getMonthItems().map((item) => {

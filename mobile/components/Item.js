@@ -32,6 +32,11 @@ export default function Item(props) {
     );
   };
 
+  const formatDate = (dateString) => {
+    const arr = new Date(dateString).toLocaleDateString().split("/");
+    return `${arr[1]}/${arr[0]}/${arr[2]}`;
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.leftContainer}>
@@ -43,9 +48,7 @@ export default function Item(props) {
         </Text>
       </View>
       <View style={styles.rightContainer}>
-        <Text style={styles.textDate}>
-          {new Date(props.date).toLocaleDateString()}
-        </Text>
+        <Text style={styles.textDate}>{formatDate(props.date)}</Text>
         <View style={styles.buttonsContainer}>
           <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
             <Icon name="trash" color="white" size={18} />
