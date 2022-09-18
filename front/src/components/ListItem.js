@@ -30,11 +30,11 @@ function ListItem(props) {
     <div className="purchase_container">
       <div className="purchase" key={props._id}>
         <div className="left">
-          <h3>R$ {parseFloat(cost).toFixed(2)}</h3>
-          <p>Observações: {obs === "" ? "Nenhuma" : obs}</p>
+          <h3>R$ {parseFloat(props.cost).toFixed(2)}</h3>
+          <p>Observações: {props.obs === "" ? "Nenhuma" : props.obs}</p>
         </div>
         <div>
-          <h4>{new Date(selectedDate).toLocaleDateString("pt-BR")}</h4>
+          <h4>{new Date(props.date).toLocaleDateString("pt-BR")}</h4>
           <div>
             <BsPencilSquare onClick={() => handleEdit(props._id)} />
             <BsTrash onClick={() => handleDelete(props._id)} />
