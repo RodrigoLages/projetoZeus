@@ -9,15 +9,35 @@
   --body-color: hsl(0 0% 98%);
 }
 
-.App {
-  width: 75%;
-  margin: 2em auto;
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 5px;
-  color: var(--text-color);
+html, body {
+  height: 100%;
 }
 
-.header {
+.App {
+  width: 90%;
+  margin: 1em auto;
+  color: var(--text-color);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.form-container {
+  width: 35%;
+  height: min-content;
+  padding: 1em;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 5px;
+}
+
+.list-container {
+  max-height: 95vh;
+  width: 50%;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 5px;
+}
+
+.form h2 {
   padding: 0.5em;
   border-bottom: 1px solid hsl(250 57% 33%);
   text-align: center;
@@ -34,7 +54,6 @@
   border-bottom: 1px solid hsl(250 57% 33%);
 }
 
-.form h2,
 .list h2 {
   text-align: center;
   margin-top: 0;
@@ -68,6 +87,7 @@
 input[type="submit"] {
   background-color: var(--base-color);
   color: #eee;
+  font-weight: bold;
   display: block;
   width: 100%;
   border: 1px solid #222;
@@ -104,6 +124,8 @@ input[type="submit"] {
   padding: 1em 1em 2em;
   margin: 1em 2em;
   border-top: 1px solid hsl(250 57% 33%);
+  height: 70%;
+  overflow-y: auto;
 }
 
 .list h2 {

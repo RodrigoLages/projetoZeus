@@ -86,45 +86,48 @@ function App() {
 
   return (
     <div className="App">
-      <div className="header">
-        <h1>Registro de Gastos</h1>
-      </div>
-      <div className="form">
-        <h2>Insira seu gasto do dia</h2>
-        <Form
-          _id={undefined}
-          cost={cost}
-          setCost={setCost}
-          obs={obs}
-          setObs={setObs}
-          selectedDate={selectedDate}
-          setSelectedDate={setSelectedDate}
-          setPurchases={setPurchases}
-        />
-      </div>
-      <div className="total-month">
-        <BsArrowLeft onClick={() => handleLeftArrow()} />
-        <div className="total-text">
-          <h3>
-            Total do mês de {fullMonth.get(selectedMonth)} de {selectedYear}:
-          </h3>
-          <h2>R$ {getMonthTotal()}</h2>
-        </div>
-        <BsArrowRight onClick={() => handleRightArrow()} />
-      </div>
-      <div className="list">
-        <h2>Lista de gastos</h2>
-        {getMonthPurchases().length === 0 && <p>Não há gastos neste mês</p>}
-        {getMonthPurchases().map((purchase) => (
-          <ListItem
-            key={purchase._id}
-            _id={purchase._id}
-            cost={purchase.cost}
-            obs={purchase.obs}
-            date={purchase.date}
+      <div className="form-container">
+
+        <div className="form">
+          <h2>Insira seu gasto do dia</h2>
+          <Form
+            _id={undefined}
+            cost={cost}
+            setCost={setCost}
+            obs={obs}
+            setObs={setObs}
+            selectedDate={selectedDate}
+            setSelectedDate={setSelectedDate}
             setPurchases={setPurchases}
           />
-        ))}
+        </div>
+      </div>
+      <div className="list-container">
+        <div className="total-month">
+          <BsArrowLeft onClick={() => handleLeftArrow()} />
+          <div className="total-text">
+            <h3>
+              Total do mês de {fullMonth.get(selectedMonth)} de {selectedYear}:
+            </h3>
+            <h2>R$ {getMonthTotal()}</h2>
+          </div>
+          <BsArrowRight onClick={() => handleRightArrow()} />
+        </div>
+        <div className="list">
+          <h2>Lista de gastos</h2>
+          {getMonthPurchases().length === 0 && <p>Não há gastos neste mês</p>}
+          {getMonthPurchases().map((purchase) => (
+            <ListItem
+              key={purchase._id}
+              _id={purchase._id}
+              cost={purchase.cost}
+              obs={purchase.obs}
+              date={purchase.date}
+              setPurchases={setPurchases}
+            />
+          ))}
+        </div>
+
       </div>
     </div>
   );

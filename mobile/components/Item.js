@@ -44,7 +44,7 @@ export default function Item(props) {
           R$ {parseFloat(props.cost).toFixed(2)}
         </Text>
         <Text style={styles.textObs}>
-          Obs: {props.obs ? props.obs : "Nenhuma"}
+          Obs: {props.obs}
         </Text>
       </View>
       <View style={styles.rightContainer}>

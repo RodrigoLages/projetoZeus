@@ -31,7 +31,7 @@ function ListItem(props) {
       <div className="purchase" key={props._id}>
         <div className="left">
           <h3>R$ {parseFloat(props.cost).toFixed(2)}</h3>
-          <p>Observações: {props.obs === "" ? "Nenhuma" : props.obs}</p>
+          <p>Observações: {props.obs}</p>
         </div>
         <div>
           <h4>{new Date(props.date).toLocaleDateString("pt-BR")}</h4>
