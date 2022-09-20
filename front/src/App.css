@@ -22,19 +22,24 @@ html, body {
   justify-content: space-between;
 }
 
-.form-container {
-  width: 35%;
-  height: min-content;
-  padding: 1em;
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 5px;
+.left-container {
+  width: 50%;
 }
 
-.list-container {
+.right-container {
   max-height: 95vh;
   width: 50%;
   background-color: rgba(255, 255, 255, 0.9);
   border-radius: 5px;
+}
+
+.stats {
+  width: 80%;
+  height: 95vh;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 
 .form h2 {
@@ -48,15 +53,13 @@ html, body {
   margin: 0;
 }
 
-.form {
+.form,
+.graph {
   padding: 1em;
-  margin: 0 2em;
+  margin:  1em;
   border-bottom: 1px solid hsl(250 57% 33%);
-}
-
-.list h2 {
-  text-align: center;
-  margin-top: 0;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 5px;
 }
 
 .form-control {
@@ -129,7 +132,8 @@ input[type="submit"] {
 }
 
 .list h2 {
-  margin-bottom: 0;
+  text-align: center;
+  margin: 0;
 }
 
 .list p {

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import Form from "./components/Form";
 import ListItem from "./components/ListItem";
+import Graph from "./components/Graph";
 
 const API = "http://localhost:4000";
 
@@ -16,19 +17,8 @@ function App() {
   const [purchases, setPurchases] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const fullMonth = new Map();
-  fullMonth.set(0, "Janeiro");
-  fullMonth.set(1, "Fevereiro");
-  fullMonth.set(2, "Março");
-  fullMonth.set(3, "Abril");
-  fullMonth.set(4, "Maio");
-  fullMonth.set(5, "Junho");
-  fullMonth.set(6, "Julho");
-  fullMonth.set(7, "Agosto");
-  fullMonth.set(8, "Setembro");
-  fullMonth.set(9, "Outubro");
-  fullMonth.set(10, "Novembro");
-  fullMonth.set(11, "Dezembro");
+  const fullMonth = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
+  "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
 
   const getMonthPurchases = () => {
     return purchases
@@ -46,7 +36,7 @@ function App() {
       .toFixed(2);
   };
 
-  //Load costs on page
+  //useEffect com [] so roda 1 vez ao iniciar a pagina
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
@@ -86,28 +76,32 @@ function App() {
 
   return (
     <div className="App">
-      <div className="form-container">
-
-        <div className="form">
-          <h2>Insira seu gasto do dia</h2>
-          <Form
-            _id={undefined}
-            cost={cost}
-            setCost={setCost}
-            obs={obs}
-            setObs={setObs}
-            selectedDate={selectedDate}
-            setSelectedDate={setSelectedDate}
-            setPurchases={setPurchases}
-          />
+      <div className="left-container">
+        <div className="stats">
+          <div className="form">
+            <h2>Insira seu gasto do dia</h2>
+            <Form
+              _id={undefined}
+              cost={cost}
+              setCost={setCost}
+              obs={obs}
+              setObs={setObs}
+              selectedDate={selectedDate}
+              setSelectedDate={setSelectedDate}
+              setPurchases={setPurchases}
+            />
+          </div>
+          <div className='graph'>
+            <Graph purchases={purchases} fullMonth={fullMonth} selectedYear={selectedYear}/>
+          </div>
         </div>
       </div>
-      <div className="list-container">
+      <div className="right-container">
         <div className="total-month">
           <BsArrowLeft onClick={() => handleLeftArrow()} />
           <div className="total-text">
             <h3>
-              Total do mês de {fullMonth.get(selectedMonth)} de {selectedYear}:
+              Total do mês de {fullMonth[selectedMonth]} de {selectedYear}:
             </h3>
             <h2>R$ {getMonthTotal()}</h2>
           </div>
@@ -127,7 +121,6 @@ function App() {
             />
           ))}
         </div>
-
       </div>
     </div>
   );
