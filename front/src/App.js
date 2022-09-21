@@ -48,6 +48,15 @@ function App() {
       .toFixed(2);
   };
 
+  const getYearTotal = () => {
+    return purchases
+      .filter(
+        (purchase) => new Date(purchase.date).getFullYear() === selectedYear
+      )
+      .reduce((prev, curr) => prev + curr.cost, 0)
+      .toFixed(2);
+  }
+
   //useEffect com [] so roda 1 vez ao iniciar a pagina
   useEffect(() => {
     const loadData = async () => {
@@ -103,7 +112,8 @@ function App() {
               setPurchases={setPurchases}
             />
           </div>
-          <div className="graph">
+          <div className="year-stats">
+            <h3>Total do ano: R$ {getYearTotal()}</h3>
             <Graph
               purchases={purchases}
               selectedYear={selectedYear}

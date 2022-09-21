@@ -38,7 +38,7 @@ function Graph(props) {
     labels: props.fullMonth,
     datasets: [
       {
-        label: "Total do Mês",
+        label: "Gasto Mensal",
         data: chartData(),
         borderColor: "hsl(250, 36%, 57%)",
         backgroundColor: "rgba(211, 205, 244, 1)",
