@@ -17,8 +17,20 @@ function App() {
   const [purchases, setPurchases] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const fullMonth = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho",
-  "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
+  const fullMonth = [
+    "Janeiro",
+    "Fevereiro",
+    "Março",
+    "Abril",
+    "Maio",
+    "Junho",
+    "Julho",
+    "Agosto",
+    "Setembro",
+    "Outubro",
+    "Novembro",
+    "Dezembro",
+  ];
 
   const getMonthPurchases = () => {
     return purchases
@@ -91,8 +103,12 @@ function App() {
               setPurchases={setPurchases}
             />
           </div>
-          <div className='graph'>
-            <Graph purchases={purchases} fullMonth={fullMonth} selectedYear={selectedYear}/>
+          <div className="graph">
+            <Graph
+              purchases={purchases}
+              selectedYear={selectedYear}
+              fullMonth={fullMonth}
+            />
           </div>
         </div>
       </div>

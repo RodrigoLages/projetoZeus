@@ -88,6 +88,7 @@ function Form(props) {
           type="text"
           name="obs"
           placeholder="(Opcional)"
+          autocomplete="off"
           onChange={(e) => props.setObs(e.target.value)}
           value={props.obs || ""}
         />
