@@ -24,19 +24,20 @@ export default function List({ route, navigation }) {
   );
   const [refreshing, setRefreshing] = React.useState(false);
 
-  const fullMonth = new Map();
-  fullMonth.set(0, "Janeiro");
-  fullMonth.set(1, "Fevereiro");
-  fullMonth.set(2, "Março");
-  fullMonth.set(3, "Abril");
-  fullMonth.set(4, "Maio");
-  fullMonth.set(5, "Junho");
-  fullMonth.set(6, "Julho");
-  fullMonth.set(7, "Agosto");
-  fullMonth.set(8, "Setembro");
-  fullMonth.set(9, "Outubro");
-  fullMonth.set(10, "Novembro");
-  fullMonth.set(11, "Dezembro");
+  const fullMonth = [
+    "Janeiro",
+    "Fevereiro",
+    "Março",
+    "Abril",
+    "Maio",
+    "Junho",
+    "Julho",
+    "Agosto",
+    "Setembro",
+    "Outubro",
+    "Novembro",
+    "Dezembro",
+  ];
 
   React.useEffect(() => {
     Database.getItems().then((items) =>
@@ -73,6 +74,12 @@ export default function List({ route, navigation }) {
       .filter((item) => new Date(item.date).getMonth() === selectedMonth);
   };
 
+  const getMonthTotal = () => {
+    return getMonthItems()
+    .reduce((prev, curr) => prev + curr.cost, 0)
+    .toFixed(2);
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -83,7 +90,7 @@ export default function List({ route, navigation }) {
           onPress={handleLeftArrow}
         />
         <Text style={styles.title}>
-          Gastos de {fullMonth.get(selectedMonth)}
+          Gastos de {fullMonth[selectedMonth]}
         </Text>
         <Icon
           name="rightcircle"
@@ -92,6 +99,7 @@ export default function List({ route, navigation }) {
           onPress={handleRightArrow}
         />
       </View>
+      <Text style={styles.title}>R$ {getMonthTotal()}</Text>
       <ScrollView
         style={styles.scrollContainer}
         contentContainerStyle={styles.itemsContainer}

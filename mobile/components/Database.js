@@ -29,7 +29,7 @@ async function getItems() {
 async function getItem(_id) {
   const res = await fetch(API + "/" + _id)
     .then((res) => res.json())
-    .catch((err) => console.log("O erro foi: " + err));
+    .catch((err) => console.log(err));
 
   return res;
 }
