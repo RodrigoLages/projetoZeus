@@ -1,7 +1,7 @@
 import "./App.css";
 
 import { useState, useEffect } from "react";
-import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
+import { BsChevronLeft, BsChevronRight, BsChevronDoubleLeft, BsChevronDoubleRight } from "react-icons/bs";
 import Form from "./components/Form";
 import ListItem from "./components/ListItem";
 import Graph from "./components/Graph";
@@ -93,6 +93,14 @@ function App() {
     } else setSelectedMonth(selectedMonth + 1);
   };
 
+  const handleLeftYear = () => {
+    setSelectedYear(selectedYear - 1);
+  }
+
+  const handleRightYear = () => {
+    setSelectedYear(selectedYear + 1);
+  }
+
   if (loading) return <p>Carregando...</p>;
 
   return (
@@ -124,14 +132,16 @@ function App() {
       </div>
       <div className="right-container">
         <div className="total-month">
-          <BsArrowLeft onClick={() => handleLeftArrow()} />
+          <BsChevronDoubleLeft onClick={() => handleLeftYear()}/>
+          <BsChevronLeft onClick={() => handleLeftArrow()} />
           <div className="total-text">
             <h3>
               Total do mês de {fullMonth[selectedMonth]} de {selectedYear}:
             </h3>
             <h2>R$ {getMonthTotal()}</h2>
           </div>
-          <BsArrowRight onClick={() => handleRightArrow()} />
+          <BsChevronRight onClick={() => handleRightArrow()} />
+          <BsChevronDoubleRight onClick={() => handleRightYear()}/>
         </div>
         <div className="list">
           <h2>Lista de gastos</h2>

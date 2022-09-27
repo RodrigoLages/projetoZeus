@@ -74,7 +74,7 @@ function Form(props) {
         <input
           type="number"
           name="cost"
-          placeholder="00.00"
+          placeholder="00,00"
           onChange={(e) => props.setCost(parseFloat(e.target.value))}
           value={props.cost || ""}
           min="0"
@@ -88,7 +88,7 @@ function Form(props) {
           type="text"
           name="obs"
           placeholder="(Opcional)"
-          autocomplete="off"
+          autoComplete="off"
           onChange={(e) => props.setObs(e.target.value)}
           value={props.obs || ""}
         />
