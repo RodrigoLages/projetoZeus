@@ -1,9 +1,11 @@
-require("dotenv").config();
 const mongoose = require("mongoose");
 const express = require("express");
-const app = express();
 const cors = require("cors");
+require("dotenv").config();
 
+const app = express();
+
+// Config CORS
 const corsOptions = {
   origin: "*",
   credentials: true, //access-control-allow-credentials:true
@@ -12,7 +14,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-//forma de ler json
+// Config JSON response
 app.use(
   express.urlencoded({
     extended: true,
@@ -21,11 +23,40 @@ app.use(
 
 app.use(express.json());
 
-//rota da API
+// User Model
+const User = require("./models/User");
+
+// Open route
+app.get("/", (req, res) => {
+  res.status(200).json({ msg: "Eae galerinha do balacobaco"});
+});
+
+// Private Route
+app.get('/user/:id', checkToken, async (req, res) => {
+  const id = req.params.id;
+
+  // check if user exists
+  const user = await User.findById(id, '-password');
+  if (!user) return res.status(404).json({ msg: "Usuário não encontrado" });
+
+  res.status(200).json({ user });
+});
+
+function checkToken(req, res, next) {
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1]
+
+  if (!token) return res.status(401).json({ msg: "Acesso negado" });
+}
+
+// Separate Routes
+const authRoutes = require("./routes/authRoute")
+app.use("/auth", authRoutes);
+
 const compraRoutes = require("./routes/compraRoute");
 app.use("/compra", compraRoutes);
 
-//entregar um porta
+// Connect to localhost:4000
 const DB_USER = process.env.DB_USER;
 const DB_PASSWORD = process.env.DB_PASSWORD;
 
