@@ -52,11 +52,11 @@ router.post("/login", async (req, res) => {
 
     //check if user exists
     const user = await User.findOne({ email: email });
-    if (!user) return res.status(404).json({ msg: "E-mail não encontrado"});
+    if (!user) return res.status(404).json({ msg: "E-mail e/ou senha incorretos"});
 
     //check if password matches
     const checkPassword = await bcrypt.compare(password, user.password);
-    if(!checkPassword) return res.status(422).json({msg: "Senha incorreta"});
+    if(!checkPassword) return res.status(422).json({msg: "E-mail e/ou senha incorretos"});
 
     try {
         const secret = process.env.SECRET;
