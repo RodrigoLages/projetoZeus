@@ -196,3 +196,12 @@ svg:hover {
   display: none;
   padding-bottom: 1.5em;
 }
+
+/*________________________________________________Login/Register_______________________________________--*/
+
+.login-container {
+  display: flex;
+  height: 90vh;
+  justify-content: center;
+  align-items: center;
+}
