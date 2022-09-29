@@ -52,18 +52,20 @@ router.post("/login", async (req, res) => {
 
     //check if user exists
     const user = await User.findOne({ email: email });
-    if (!user) return res.status(404).json({ msg: "E-mail e/ou senha incorretos"});
+    if (!user) return res.status(404).json({ msg: "Usuário não existe"});
 
     //check if password matches
     const checkPassword = await bcrypt.compare(password, user.password);
-    if(!checkPassword) return res.status(422).json({msg: "E-mail e/ou senha incorretos"});
+    if(!checkPassword) return res.status(422).json({msg: "Senha incorreta"});
 
     try {
         const secret = process.env.SECRET;
 
         const token = jwt.sign({
         id: user._id,
-        }, secret);
+        }, secret, {
+            expiresIn:'8h'
+        });
 
         res.status(200).json({ msg: "Login efetuado com sucesso", token});
     } catch (err) {

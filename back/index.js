@@ -29,36 +29,8 @@ const User = require("./models/User");
 
 // Open route
 app.get("/", (req, res) => {
-  res.status(200).json({ msg: "Eae galerinha do balacobaco"});
+  res.status(200).json({ msg: "Rota aberta"});
 });
-
-// Private Route
-app.get('/user/:id', checkToken, async (req, res) => {
-  const id = req.params.id;
-
-  // check if user exists
-  const user = await User.findById(id, '-password');
-  if (!user) return res.status(404).json({ msg: "Usuário não encontrado" });
-
-  res.status(200).json({ user });
-});
-
-function checkToken(req, res, next) {
-  const authHeader = req.headers.authorization;
-  const token = authHeader && authHeader.split(' ')[1];
-
-  if (!token) return res.status(401).json({ msg: "Usuário não logado" });
-  try {
-    const secret = process.env.SECRET;
-
-    jwt.verify(token, secret);
-
-    next();
-  } catch (err) {
-    res.status(403).json({ msg: 'Token inválido' });
-    console.log(err);
-  }
-}
 
 // Separate Routes
 const authRoutes = require("./routes/authRoute")
@@ -66,6 +38,24 @@ app.use("/auth", authRoutes);
 
 const compraRoutes = require("./routes/compraRoute");
 app.use("/compra", checkToken, compraRoutes);
+
+// Middleware
+function checkToken(req, res, next) {
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(' ')[1];
+
+  if (!token) return res.status(401).json({ msg: "Usuário não logado" });
+
+  try {
+
+    jwt.verify(token, process.env.SECRET);
+    return next();
+
+  } catch (err) {
+    res.status(403).json({ msg: 'Token inválido' });
+    console.log(err);
+  }
+}
 
 // Connect to localhost:4000
 const DB_USER = process.env.DB_USER;
