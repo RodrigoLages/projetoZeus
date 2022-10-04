@@ -1,8 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { BsChevronLeft, BsChevronRight, BsChevronDoubleLeft, BsChevronDoubleRight } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
+import { Context } from "../Context/AuthContext";
 import Form from "../components/Form";
 import ListItem from "../components/ListItem";
 import Graph from "../components/Graph";
+
+
 
 const API = "http://localhost:4000";
 
@@ -14,6 +18,8 @@ function Home() {
   const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
   const [purchases, setPurchases] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { token } = useContext(Context);
+  const navigate = useNavigate();
 
   const fullMonth = [
     "Janeiro",
@@ -60,7 +66,14 @@ function Home() {
     const loadData = async () => {
       setLoading(true);
 
-      const res = await fetch(API + "/compra")
+      if (!token) return navigate("/login")
+
+      const res = await fetch(API + "/compra", {
+        method: "GET",
+            headers: {
+              "Authorization": "Bearer " + token,
+            },
+      })
         .then((res) => res.json())
         .then((data) => data)
         .catch((err) => console.log(err));
@@ -75,7 +88,7 @@ function Home() {
     };
 
     loadData();
-  }, []);
+  }, [token, navigate]);
 
   const handleLeftArrow = () => {
     if (selectedMonth === 0) {

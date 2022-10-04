@@ -1,17 +1,22 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { Context } from "../Context/AuthContext";
 
 const API = "http://localhost:4000";
 
 function Login() {
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const { setToken } = useContext(Context);
+    const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
+
+    const handleLogin = async (e) => {
         e.preventDefault();
         
         const user = { email, password }
 
-        const token = await fetch(API + "/auth/login", {
+        const res = await fetch(API + "/auth/login", {
             method: "POST",
             body: JSON.stringify(user),
             headers: {
@@ -19,16 +24,21 @@ function Login() {
             },
           })
             .then((res) => res.json())
-            .then((data) => data)
             .catch((err) => console.log(err));
+
+        setPassword('');
+        if (!res.token) return window.alert(res.msg);
+        
+        setToken(res.token)
+        navigate("/");
     }
 
     return (
         <div className="login-container">
-            <div className="form">
-                <form onSubmit={handleSubmit}>
+            <div className="form" id="form-login">
+                <form onSubmit={handleLogin}>
                     <div className="form-control">
-                        <label htmlFor="email">Usuário</label>
+                        <label htmlFor="email">E-mail</label>
                         <input
                         type="text"
                         name="email"
@@ -49,6 +59,9 @@ function Login() {
                     </div>
                     <input type="submit" value="Login" />
                 </form>
+                <div className="link">
+                    <Link to={"/register"}>Cadastre-se</Link>
+                </div>
             </div>
         </div>
     );

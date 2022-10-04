@@ -1,0 +1,15 @@
+services:
+  back:
+    build: "./back"
+    container_name: zeus-back
+    restart: always
+    ports:
+      - "4000:4000"
+  front:
+    build: "./front"
+    container_name: zeus-front
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - back

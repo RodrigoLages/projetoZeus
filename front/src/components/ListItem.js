@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { BsPencilSquare, BsTrash } from "react-icons/bs";
+import { Context } from "../Context/AuthContext";
 import Form from "./Form";
 
 const API = "http://localhost:4000";
@@ -9,6 +10,7 @@ function ListItem(props) {
   const [obs, setObs] = useState(props.obs);
   const [selectedDate, setSelectedDate] = useState(props.date);
   const [formVisibility, setFormVisibility] = useState(false);
+  const { token } = useContext(Context);
 
   const handleEdit = async (_id) => {
     setFormVisibility(!formVisibility);
@@ -19,6 +21,9 @@ function ListItem(props) {
 
     await fetch(API + "/compra/" + _id, {
       method: "DELETE",
+      headers: {
+        "Authorization": "Bearer " + token,
+      }
     });
 
     props.setPurchases((prevState) =>

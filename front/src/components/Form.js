@@ -1,9 +1,13 @@
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { useContext } from "react";
+import { Context } from "../Context/AuthContext";
 
 const API = "http://localhost:4000";
 
 function Form(props) {
+  const { token } = useContext(Context);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -20,10 +24,10 @@ function Form(props) {
         body: JSON.stringify(purchase),
         headers: {
           "Content-Type": "application/json",
+          "Authorization": "Bearer " + token,
         },
       })
         .then((res) => res.json())
-        .then((data) => data)
         .catch((err) => console.log(err));
 
       props.setPurchases((prevState) =>
@@ -38,23 +42,27 @@ function Form(props) {
     } else {
       //Update
       const purchase = {
-        _id: props._id,
         cost: props.cost,
         obs: props.obs,
         date: props.selectedDate,
       };
 
-      await fetch(API + "/compra/" + purchase._id, {
+      await fetch(API + "/compra/" + props._id, {
         method: "PATCH",
         body: JSON.stringify(purchase),
         headers: {
           "Content-Type": "application/json",
+          "Authorization": "Bearer " + token,
         },
       });
 
-      const res = await fetch(API + "/compra")
+      const res = await fetch(API + "/compra", {
+        method: "GET",
+        headers: {
+          "Authorization": "Bearer " + token,
+        }
+      })
         .then((res) => res.json())
-        .then((data) => data)
         .catch((err) => console.log(err));
 
       props.setPurchases(
