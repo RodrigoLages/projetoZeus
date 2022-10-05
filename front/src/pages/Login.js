@@ -34,7 +34,7 @@ function Login() {
     }
 
     return (
-        <div className="login-container">
+        <div className="auth-container">
             <div className="form" id="form-login">
                 <form onSubmit={handleLogin}>
                     <div className="form-control">

@@ -199,14 +199,15 @@ svg:hover {
 
 /*________________________________________________Login/Register_______________________________________--*/
 
-.login-container {
+.auth-container {
   display: flex;
   height: 90vh;
   justify-content: center;
   align-items: center;
 }
 
-#form-login {
+#form-login,
+#form-register {
   width: 35%;
 }
 
