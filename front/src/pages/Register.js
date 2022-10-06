@@ -18,7 +18,7 @@ function Register() {
         
         const newUser = { email, name, password, confirmPassword }
 
-        const res = await fetch(API + "/auth/register", {
+        const regRes = await fetch(API + "/auth/register", {
             method: "POST",
             body: JSON.stringify(newUser),
             headers: {
@@ -31,11 +31,11 @@ function Register() {
         
         setPassword('');
         setConfirmPassword('');
-        if (res.status !== 201) return window.alert(res.msg);
+        if (regRes.status !== 201) return window.alert(regRes.msg);
         
         const user = { email, password }
 
-        const login = await fetch(API + "/auth/login", {
+        const logRes = await fetch(API + "/auth/login", {
             method: "POST",
             body: JSON.stringify(user),
             headers: {
@@ -45,9 +45,9 @@ function Register() {
             .then((res) => res.json())
             .catch((err) => console.log(err));
 
-        if (!login.token) return window.alert(login.msg);
+        if (!logRes.token) return window.alert(logRes.msg);
         
-        setToken(login.token)
+        setToken(logRes.token)
         navigate("/");
     }
 

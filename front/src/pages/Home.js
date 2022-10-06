@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext } from "react";
-import { BsChevronLeft, BsChevronRight, BsChevronDoubleLeft, BsChevronDoubleRight } from "react-icons/bs";
+import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../Context/AuthContext";
 import Form from "../components/Form";
@@ -61,6 +61,12 @@ function Home() {
       .toFixed(2);
   }
 
+  const getYearsShown = () => {
+    return [...new Set(purchases.map(
+      item => new Date(item.date).getFullYear()
+      ))].sort((a,b) => b - a)
+  }
+
   //useEffect com [] so roda 1 vez ao iniciar a pagina
   useEffect(() => {
     const loadData = async () => {
@@ -91,26 +97,14 @@ function Home() {
   }, [token, navigate]);
 
   const handleLeftArrow = () => {
-    if (selectedMonth === 0) {
-      setSelectedMonth(11);
-      setSelectedYear(selectedYear - 1);
-    } else setSelectedMonth(selectedMonth - 1);
+    if (selectedMonth === 0) setSelectedMonth(11);
+    else setSelectedMonth(selectedMonth - 1);
   };
 
   const handleRightArrow = () => {
-    if (selectedMonth === 11) {
-      setSelectedMonth(0);
-      setSelectedYear(selectedYear + 1);
-    } else setSelectedMonth(selectedMonth + 1);
+    if (selectedMonth === 11) setSelectedMonth(0);
+    else setSelectedMonth(selectedMonth + 1);
   };
-
-  const handleLeftYear = () => {
-    setSelectedYear(selectedYear - 1);
-  }
-
-  const handleRightYear = () => {
-    setSelectedYear(selectedYear + 1);
-  }
 
   if (loading) return <p>Carregando...</p>;
 
@@ -143,16 +137,24 @@ function Home() {
       </div>
       <div className="right-container">
         <div className="total-month">
-          <BsChevronDoubleLeft onClick={() => handleLeftYear()}/>
           <BsChevronLeft onClick={() => handleLeftArrow()} />
           <div className="total-text">
-            <h3>
-              Total do mês de {fullMonth[selectedMonth]} de {selectedYear}:
-            </h3>
+            <h3>Total do mês de </h3>
+            <select 
+            onChange={(e) => setSelectedMonth(fullMonth.indexOf(e.target.value))} 
+            value={fullMonth[selectedMonth]}
+            >
+              {fullMonth.map((mth) => (<option value={mth} key={mth}>{mth}</option>))}
+            </select>
+            <select
+            onChange={(e) => setSelectedYear(parseInt(e.target.value))} 
+            value={getYearsShown().includes(selectedYear) ? selectedYear : setSelectedYear(getYearsShown()[0])}
+            >
+              {getYearsShown().map((year) => (<option value={year} key={year}>{year}</option>))}
+            </select>
             <h2>R$ {getMonthTotal()}</h2>
           </div>
           <BsChevronRight onClick={() => handleRightArrow()} />
-          <BsChevronDoubleRight onClick={() => handleRightYear()}/>
         </div>
         <div className="list">
           <h2>Lista de gastos</h2>
@@ -164,6 +166,7 @@ function Home() {
               cost={purchase.cost}
               obs={purchase.obs}
               date={purchase.date}
+              purchases={purchases}
               setPurchases={setPurchases}
             />
           ))}

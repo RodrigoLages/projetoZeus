@@ -56,6 +56,7 @@ function ListItem(props) {
           selectedDate={selectedDate}
           setSelectedDate={setSelectedDate}
           setPurchases={props.setPurchases}
+          setYearsShown={props.setYearsShown}
           setFormVisibility={setFormVisibility}
         />
       </div>
