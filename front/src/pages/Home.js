@@ -21,6 +21,8 @@ function Home() {
   const { token } = useContext(Context);
   const navigate = useNavigate();
 
+  console.log('a')
+
   const fullMonth = [
     "Janeiro",
     "Fevereiro",
@@ -106,6 +108,8 @@ function Home() {
     else setSelectedMonth(selectedMonth + 1);
   };
 
+  const resetYear = () => setSelectedYear(getYearsShown()[0]);
+
   if (loading) return <p>Carregando...</p>;
 
   return (
@@ -148,7 +152,7 @@ function Home() {
             </select>
             <select
             onChange={(e) => setSelectedYear(parseInt(e.target.value))} 
-            value={getYearsShown().includes(selectedYear) ? selectedYear : setSelectedYear(getYearsShown()[0])}
+            value={getYearsShown().includes(selectedYear) ? selectedYear : resetYear}
             >
               {getYearsShown().map((year) => (<option value={year} key={year}>{year}</option>))}
             </select>
