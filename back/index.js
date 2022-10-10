@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 const express = require("express");
 const cors = require("cors");
-const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const app = express();
@@ -24,38 +23,21 @@ app.use(
 
 app.use(express.json());
 
-// User Model
-const User = require("./models/User");
-
 // Open route
 app.get("/", (req, res) => {
   res.status(200).json({ msg: "Rota aberta"});
 });
+
+// Middleware
+const middleware = require("./middlewares/auth")
 
 // Separate Routes
 const authRoutes = require("./routes/authRoute")
 app.use("/auth", authRoutes);
 
 const compraRoutes = require("./routes/compraRoute");
-app.use("/compra", checkToken, compraRoutes);
+app.use("/compra", middleware, compraRoutes);
 
-// Middleware
-function checkToken(req, res, next) {
-  const authHeader = req.headers.authorization;
-  const token = authHeader && authHeader.split(' ')[1];
-
-  if (!token) return res.status(401).json({ msg: "Usuário não logado" });
-
-  try {
-
-    jwt.verify(token, process.env.SECRET);
-    return next();
-
-  } catch (err) {
-    res.status(403).json({ msg: 'Token inválido' });
-    console.log(err);
-  }
-}
 
 // Connect to localhost:4000
 const DB_USER = process.env.DB_USER;

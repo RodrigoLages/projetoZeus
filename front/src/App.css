@@ -213,4 +213,6 @@ svg:hover {
 
 .link {
   padding-top: 1em;
+  display: flex;
+  justify-content: space-between;
 }

@@ -61,6 +61,7 @@ function Login() {
                 </form>
                 <div className="link">
                     <Link to={"/register"}>Cadastre-se</Link>
+                    <Link to={"/login"}>Esqueceu a senha?</Link>
                 </div>
             </div>
         </div>

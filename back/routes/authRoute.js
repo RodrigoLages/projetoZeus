@@ -2,6 +2,8 @@ const router = require("express").Router();
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const mailer = require("../utils/mailer");
+const middleware = require("../middlewares/auth")
 require("dotenv").config();
 
 // Register User
@@ -37,7 +39,7 @@ router.post('/register', async (req, res) => {
         res.status(201).json({msg: "Usuário cadastrado no sistema"})
     } catch(err) {
         console.log(err);
-        res.status(500).json({msg: "Erro no servidor"});
+        res.status(500).json({msg: "Erro ao cadstrar"});
     }
 });
 
@@ -70,8 +72,62 @@ router.post("/login", async (req, res) => {
         res.status(200).json({ msg: "Login efetuado com sucesso", token});
     } catch (err) {
         console.log(err);
-        res.status(500).json({msg: "Erro no servidor"});
+        res.status(500).json({msg: "Erro no login"});
     }
 });
 
-module.exports = router
+// Recover password
+router.post("/forgot_password", async (req, res) => {
+    const { email } = req.body;
+    if (!email) return res.status(422).json({ msg: "Envie um email válido" });
+
+    try {
+        const user = await User.findOne({ email });
+        if (!user) return res.status(404).json({ msg: "Email não cadastrado" });
+
+        const secret = process.env.SECRET;
+
+        const token = jwt.sign({
+            id: user._id,
+            }, secret, {
+                expiresIn:'1h'
+            });
+
+        await mailer.transport.sendMail({
+            from: mailer.address,
+            to: user.email,
+            subject: 'Zeus - recuperação de senha',
+            html: `<a href="http://localhost:3000/update_password/${token}">Clique aqui para mudar sua senha</a>`
+        })
+
+        res.status(200).json({ msg: "Email enviado"});
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({ msg: "Erro no ao enviar email" });
+    }
+})
+
+router.patch("/update_password", middleware, async (req, res) => {
+    const token = req.headers.authorization.split(' ')[1];
+    const _id = jwt.decode(token).id;
+
+    const {password, confirmPassword} = req.body;
+    if (!password) return res.status(422).json({ msg: "Senha não enviada" });
+    if (password !== confirmPassword) return res.status(422).json({ msg: "As senhas não conferem" });
+    try {
+        const salt = await bcrypt.genSalt(12);
+        const passwordHash = await bcrypt.hash(password, salt);
+
+        const user = await User.findOne({ _id });
+        if (!user) return res.status(422).json({ msg: "Usuário não encontrado" });
+        
+        await User.updateOne({ _id }, { password: passwordHash });
+    
+        res.status(200).json({ msg: "Senha alterada" });
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ msg: "Erro ao atualizar senha" });
+    }
+})
+
+module.exports = router;
