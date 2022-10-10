@@ -35,7 +35,7 @@ function Login() {
 
     return (
         <div className="auth-container">
-            <div className="form" id="form-login">
+            <div className="form-auth">
                 <form onSubmit={handleLogin}>
                     <div className="form-control">
                         <label htmlFor="email">E-mail</label>
@@ -61,7 +61,7 @@ function Login() {
                 </form>
                 <div className="link">
                     <Link to={"/register"}>Cadastre-se</Link>
-                    <Link to={"/login"}>Esqueceu a senha?</Link>
+                    <Link to={"/forgot_password"}>Esqueceu a senha?</Link>
                 </div>
             </div>
         </div>

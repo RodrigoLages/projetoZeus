@@ -53,7 +53,7 @@ function Register() {
 
     return (
         <div className="auth-container">
-            <div className="form" id="form-register">
+            <div className="form-auth">
                 <form onSubmit={handleRegister}>
                     <div className="form-control">
                         <label htmlFor="email">E-mail</label>

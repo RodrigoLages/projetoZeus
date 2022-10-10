@@ -5,6 +5,8 @@ import { AuthProvider } from "./Context/AuthContext";
 import Home from './pages/Home';
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import ForgotPass from "./pages/ForgotPass";
+import UpdatePass from "./pages/UpdatePass";
 
 function App() {
   return (
@@ -14,6 +16,8 @@ function App() {
           <Route exact path="/" element={<Home/>}/>
           <Route path="/login" element={<Login/>}/>
           <Route path="/register" element={<Register/>}/>
+          <Route path="/forgot_password" element={<ForgotPass/>}/>
+          <Route path="/update_password/:token" element={<UpdatePass/>}/>
         </Routes>
       </Router>
     </AuthProvider>
